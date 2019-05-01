@@ -1,0 +1,28 @@
+---
+title: "Using the {artefacts} data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using the {artefacts} data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Installing and loading the package
+The package is currently on Github and not on CRAN, so you will need to download it from Github using the `{devtools}` package
+
+```{r setup}
+# install.packages("devtools")
+# devtools::install_github("uashogeschoolutrecht/artefacts")
+library(artefacts)
+```
+
+## Data package `{artefacts}`
+The `{artefacts}` package is an R package containing data anad scripts from a biomonitoring experiment in young human volunteers.....
+
