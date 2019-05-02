@@ -1,13 +1,16 @@
-#' Prices of 50,000 round cut diamonds.
+#' @title Biometrical data of 1 volunteer.
 #'
-#' A dataset containing the prices and other attributes of almost 54,000
-#' diamonds.
+#' A dataset containing the biometric data of x young adolescent volunteers
+#' recorded in a social class-room situation.
 #'
-#' @format A data frame with 53940 rows and 10 variables:
+#' @format A list with 2 data frames containing two elements "acceleration"
+#' with acceleration data for x, y, z, accelaration speed per time and
+#' "skin-conductance" with measured skin conductace from EDA by time
 #' \describe{
-#'   \item{price}{price, in US dollars}
-#'   \item{carat}{weight of the diamond, in carats}
+#'   \item{z'}{...}
+#'   \item{z''}{...}
 #'   ...
 #' }
 #' @source \url{<url here>}
-"data_dummy"
+#' @references authors et al., 2019
+"data_volunteer_1"

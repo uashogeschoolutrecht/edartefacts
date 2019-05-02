@@ -1,6 +1,18 @@
 ## code to prepare `DATASET` dataset goes here
 
-data_dummy <- tibble::tibble(A = rnorm(1000),
-                    B = rnorm(1000))
+## packages
+library(tidyverse)
+library(here)
 
-usethis::use_data(data_dummy)
+path = here::here("data-raw", "subject01.zip")
+path_out = here::here("data-raw")
+volunteer_id = "volunteer_1"
+
+data_volunteer_1 <- artefacts::parse_raw_data(
+  path = data_raw_path,
+  path_out = path_out,
+  volunteer_id = "volunteer_1"
+) %>%
+  print()
+
+usethis::use_data(data_volunteer_1)
