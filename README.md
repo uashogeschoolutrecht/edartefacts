@@ -1,17 +1,16 @@
----
-title: README
-output: github_document
----
+README
+================
 
 ## Installing the package
-```{r, eval=FALSE}
+
+``` r
 # install.packages("devtools")
 library(devtools)
 install_github("uashogeschoolutrecht/artefacts")
 ```
 
+## Loading dataset
 
-## Loading dataset 
-```{r, eval=FALSE}
+``` r
 data(package = "artefacts", "data_volunteer_1")
 ```
