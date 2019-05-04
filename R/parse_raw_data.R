@@ -1,43 +1,34 @@
 #' @title Parse a zip archive containing the raw data per volunteer
-#' @param path A character directing to the path of the zip archive
+#'
+#' @param path A character directing to zip archive containing data from
+#' a single volunteer
+#' @param path_out A character directing to the directory where the unzipped
+#' files must be stored
+#' @param volunteer_id A character single string indicating from which
+#' volunteer you are parsing the data
+#'
 #' @return a [tibble][tibble::tibble-package]
+#'
 #' @export
 
 parse_raw_data <- function(path = NULL,
                            path_out = NULL,
                            volunteer_id = NULL){
 
+  dir.create(path_out)
+
   ## unzipping the archive
-  unzip(path, exdir = path_out)
+  utils::unzip(path, exdir = path_out)
 
   ## files list unzippes csv
   data_files <- list.files(path_out,
                            pattern = "\\.csv",
                            full.names = TRUE)
 
+  ## add file names
   names(data_files) <- basename(data_files)
-  # # data_files["subject01_instruction_command.csv"] ## has names? - check
-  #
-  # ## read data into list of dataframes
-  # data_list <- purrr::map(data_files, readr::read_csv)
 
-  ## add names to list for tracebility
-  # names(data_list) <- basename(data_files)
-
-  # ## inspect the dataframes and isolate individual dataframes
-  # data_list$subject01_instruction_command.csv ## header
-  # data_list$subject01_instruction_timestamp.csv ## file with no header
-  # data_list$subject01_left_acc_data.csv ## no header
-  # data_list$subject01_left_acc_timestamp.csv ## no header
-  # data_list$subject01_left_eda_data.csv ## no header
-  # data_list$subject01_left_eda_timestamp.csv ## no header
-  # data_list$subject01_right_acc_data.csv ## no header
-  # data_list$subject01_right_acc_timestamp.csv ## no header
-  # data_list$subject01_right_eda_data.csv ## no header
-  # data_list$subject01_right_eda_timestamp.csv ## no header
-
-  ## looks like all but datafiles do not have a header
-  ## Try again
+  ## read instructions file
   instructions <- readr::read_csv(
     file = data_files["subject01_instruction_command.csv"],
     col_names = TRUE)
@@ -57,14 +48,34 @@ parse_raw_data <- function(path = NULL,
 
   ## add index to each df "no header"
   data_list_no_header <- purrr::map(data_list_no_header, add_row_index)
+  instructions <- add_row_index(instructions)
+
+  ## file_name to dataframes
+#  add_file_name <- function(df, path){
+#
+#    file <- basename(path)
+#
+#    df$filename <- file
+#
+#    return(df)
+#
+#  }
+
+#  data_list_no_header <- map2(.x = data_list_no_header,
+#                              .y = names(data_list_no_header),
+#                              .f = add_file_name)
+
+#  instructions$file_name <- paste(volunteer_id, "instruction_command.csv",
+#                                  sep = "_")
 
   data_list_no_header[[1]]
   ## inspect
   # data_list_no_header$subject01_left_eda_data.csv
   # data_list_no_header$subject01_left_eda_timestamp.csv
-  data_list_no_header %>% names
+#  data_list_no_header %>% names
 
   ## left hand/arm
+  instructions_time <- data_list_no_header[[1]]
   acc_data_left <- data_list_no_header[[2]]
   acc_time_left <- data_list_no_header[[3]]
   eda_data_left <- data_list_no_header[[4]]
@@ -77,11 +88,20 @@ parse_raw_data <- function(path = NULL,
   eda_time_right <- data_list_no_header[[9]]
 
   ## define headers
-  annotations_acc <- c("x_axis_acc", "y_axis_acc", "z_axis_acc", "row_index")
-  annotations_eda <- c("eda", "row_index")
-  annotations_time <- c("time", "row_index")
+  annotations_acc <- c("x_axis_acc",
+                       "y_axis_acc",
+                       "z_axis_acc",
+                       "row_index"
+                       )
+  annotations_eda <- c("eda",
+                       "row_index"
+                       )
+  annotations_time <- c("time",
+                        "row_index"
+                        )
 
   ## add headers
+  names(instructions_time) <- annotations_time
   names(acc_data_left) <- annotations_acc
   names(acc_data_right) <- annotations_acc
   names(eda_data_left) <- annotations_eda
@@ -92,6 +112,8 @@ parse_raw_data <- function(path = NULL,
   names(acc_time_right) <- annotations_time
 
   ##inspect
+  instructions
+  instructions_time
   acc_data_left
   acc_data_right
   acc_time_left
@@ -101,36 +123,42 @@ parse_raw_data <- function(path = NULL,
   eda_time_left
   eda_time_right
 
+
+
   ## join data and time
-  acc_join_left <- left_join(
+  instructions_join <- left_join(instructions,
+                                 instructions_time,
+                                 by = "row_index")
+
+  acc_join_left <- dplyr::left_join(
     acc_data_left,
     acc_time_left
   ) %>%
-    mutate(side = "left")
+    dplyr::mutate(side = "left")
   #%>% ## add a variable for which hand (left/right)
    # print()
 
-  acc_join_right <- left_join(
+  acc_join_right <- dplyr::left_join(
     acc_data_right,
     acc_time_right
   ) %>%
-    mutate(side = "right")
+    dplyr::mutate(side = "right")
   #%>% ## add a variable for which hand (left/right)
   #  print()
 
-  eda_join_left <- left_join(
+  eda_join_left <- dplyr::left_join(
     eda_data_left,
     eda_time_left
   ) %>%
-    mutate(side = "left")
+    dplyr::mutate(side = "left")
   #%>% ## add a variable for which hand (left/right)
    # print()
 
-  eda_join_right <- left_join(
+  eda_join_right <- dplyr::left_join(
     eda_data_right,
     eda_time_right
   ) %>%
-    mutate(side = "right")
+    dplyr::mutate(side = "right")
   #%>% ## add a variable for which hand (left/right)
    # print()
 
@@ -145,22 +173,24 @@ parse_raw_data <- function(path = NULL,
     eda_join_right
   )
 
-
-
   ## add volunteer id
   data_all_acc <- data_all_acc %>%
-    mutate(volunteer_id = volunteer_id)
+    dplyr::mutate(volunteer_id = volunteer_id)
 
   data_all_eda <- data_all_eda %>%
-    mutate(volunteer_id = volunteer_id)
+    dplyr::mutate(volunteer_id = volunteer_id)
 
+  instructions_join <- instructions_join %>%
+    dplyr::mutate(volunteer_id = volunteer_id)
 
-
-   data_all_list <- list(data_all_acc,
-              data_all_eda)
+   data_all_list <- list(
+     data_all_acc,
+     data_all_eda,
+     instructions_join)
 
    names(data_all_list) <- c("acceleration",
-                             "skin-conductance")
+                             "skin-conductance",
+                             "instructions")
 
    return(data_all_list)
 }

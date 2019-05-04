@@ -10,7 +10,6 @@ library(devtools)
 install_github("uashogeschoolutrecht/artefacts")
 ```
 
-
 ## Loading dataset 
 ```{r, eval=FALSE}
 data(package = "artefacts", "data_volunteer_1")

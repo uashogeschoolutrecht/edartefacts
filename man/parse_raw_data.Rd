@@ -7,7 +7,14 @@
 parse_raw_data(path = NULL, path_out = NULL, volunteer_id = NULL)
 }
 \arguments{
-\item{path}{A character directing to the path of the zip archive}
+\item{path}{A character directing to zip archive containing data from
+a single volunteer}
+
+\item{path_out}{A character directing to the directory where the unzipped
+files must be stored}
+
+\item{volunteer_id}{A character single string indicating from which
+volunteer you are parsing the data}
 }
 \value{
 a [tibble][tibble::tibble-package]
