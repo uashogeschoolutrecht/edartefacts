@@ -3,7 +3,7 @@ title: README
 output: github_document
 ---
 
-## Installing the package
+## Installing the package from Github
 ```{r, eval=FALSE}
 # install.packages("devtools")
 library(devtools)
