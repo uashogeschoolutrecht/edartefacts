@@ -2,4 +2,5 @@
 
 export("%>%")
 export(parse_raw_data)
+export(plot_subject_acceleration)
 importFrom(magrittr,"%>%")

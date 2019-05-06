@@ -1,0 +1,72 @@
+---
+title: "Visualizing edartefacts datasets"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualizing edartefacts datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Load packages
+```{r setup}
+library(edartefacts)
+library(tidyverse)
+
+## toolboxr
+devtools::install_github("uashogeschoolutrecht/toolboxr")
+library(toolboxr)
+```
+
+## Load data
+```{r}
+data(package = "edartefacts")
+data(package = "edartefacts", "data_acceleration_all")
+data(package = "edartefacts", "data_eda_all")
+data(package = "edartefacts", "data_instructions_all") ## or
+```
+
+```{r, eval=FALSE}
+acc <- edartefacts::data_acceleration_all
+eda <- edartefacts::data_eda_all
+ins <- edartefacts::data_instructions_all
+```
+
+## Acceleration data
+
+### Only one subject
+```{r}
+acc %>%
+  dplyr::filter(volunteer_id == "subject09") %>%
+  gather(x_axis_acc:z_axis_acc, key = "axis", value = "acceleration") %>%
+  group_by(side, axis) %>%
+    ggplot(aes(x = time,
+               y = acceleration)) +
+    geom_point(aes(colour = side)) +
+    facet_wrap(~ axis)
+```
+
+## EDA data
+```{r}
+eda %>%
+  dplyr::filter(volunteer_id == "subject11") %>%
+  group_by(side) %>%
+    ggplot(aes(x = time,
+               y = eda)) +
+    geom_point(aes(colour = side), size = 0.2) +
+  facet_wrap(~side, scales = "free") +
+  rotate_axis_labels(axis = "x", angle = 90) +
+  xlim(c(20000, 90000)) +
+  ylim(c(4, 7))
+  
+## with the package
+plot_subject_eda(subject = "subject01")
+
+```
+

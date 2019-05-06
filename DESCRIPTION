@@ -1,13 +1,13 @@
-Package: artefacts
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Package: edartefacts
+Title: Data Package Containing Biometry Data
+Version: 0.0.1.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Marc",
+           family = "Teunis",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "marc.teunis@hu.nl",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: A datapackage containing biometry data.
 Depends: R (>= 3.1.0)
 License: CC0
 Encoding: UTF-8

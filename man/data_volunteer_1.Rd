@@ -7,9 +7,11 @@
 
 A dataset containing the biometric data of x young adolescent volunteers
 recorded in a social class-room situation.}
-\format{A list with 2 data frames containing two elements "acceleration"
-with acceleration data for x, y, z, accelaration speed per time and
-"skin-conductance" with measured skin conductace from EDA by time
+\format{A list with 3 data frames containing "acceleration data"
+with acceleration data for x, y, z, accelaration speed per time,
+"skin-conductance" with measured skin conductace from EDA by time, and
+"instructions-data" with instructions for movements to volunteers, with
+accomapnying time stamps
 \describe{
   \item{z'}{...}
   \item{z''}{...}

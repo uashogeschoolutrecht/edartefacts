@@ -4,7 +4,7 @@
 \alias{parse_raw_data}
 \title{Parse a zip archive containing the raw data per volunteer}
 \usage{
-parse_raw_data(path = NULL, path_out = NULL, volunteer_id = NULL)
+parse_raw_data(path = NULL, path_out = NULL, subject_id = NULL)
 }
 \arguments{
 \item{path}{A character directing to zip archive containing data from

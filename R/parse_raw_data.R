@@ -13,7 +13,7 @@
 
 parse_raw_data <- function(path = NULL,
                            path_out = NULL,
-                           volunteer_id = NULL){
+                           subject_id = NULL){
 
   dir.create(path_out)
 
@@ -175,13 +175,13 @@ parse_raw_data <- function(path = NULL,
 
   ## add volunteer id
   data_all_acc <- data_all_acc %>%
-    dplyr::mutate(volunteer_id = volunteer_id)
+    dplyr::mutate(subject_id = subject_id)
 
   data_all_eda <- data_all_eda %>%
-    dplyr::mutate(volunteer_id = volunteer_id)
+    dplyr::mutate(subject_id = subject_id)
 
   instructions_join <- instructions_join %>%
-    dplyr::mutate(volunteer_id = volunteer_id)
+    dplyr::mutate(subject_id = subject_id)
 
    data_all_list <- list(
      data_all_acc,

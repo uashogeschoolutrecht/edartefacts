@@ -3,13 +3,12 @@
 \docType{data}
 \name{data_acceleration_all}
 \alias{data_acceleration_all}
-\title{Biometrical data of 1 volunteer.
+\title{Biometrical data of all volunteers.
 
 A dataset containing the biometric data of x young adolescent volunteers
 recorded in a social class-room situation.}
-\format{A list with 2 data frames containing two elements "acceleration"
-with acceleration data for x, y, z, accelaration speed per time and
-"skin-conductance" with measured skin conductace from EDA by time
+\format{A data frame containing "acceleration" data
+for x, y, z, accelaration speed per time
 \describe{
   \item{z'}{...}
   \item{z''}{...}
@@ -22,7 +21,7 @@ with acceleration data for x, y, z, accelaration speed per time and
 data_acceleration_all
 }
 \description{
-Biometrical data of 1 volunteer.
+Biometrical data of all volunteers.
 
 A dataset containing the biometric data of x young adolescent volunteers
 recorded in a social class-room situation.
